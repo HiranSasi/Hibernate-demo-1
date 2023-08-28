@@ -1,15 +1,31 @@
 package utill;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 public class SessionFactoryConfiguration {
-    private SessionFactoryConfiguration serviceFactoryConfiguration;
-    
-    private SessionFactoryConfiguration(){}
+    private static SessionFactoryConfiguration sessionFactoryConfiguration;
+    private SessionFactory sessionFactory;
 
-    public static SessionFactoryConfiguration getInstance(){
+    private SessionFactoryConfiguration() {
 
-        
+        Configuration configuration = new Configuration().configure();
 
+        sessionFactory = configuration.buildSessionFactory();
+    }
 
+    public static SessionFactoryConfiguration getInstance() {
+
+        return sessionFactoryConfiguration == null ? sessionFactoryConfiguration = new SessionFactoryConfiguration()
+                : sessionFactoryConfiguration;
 
     }
+
+    public Session getSession() {
+
+        return sessionFactory.openSession();
+    }
+
+
 }
